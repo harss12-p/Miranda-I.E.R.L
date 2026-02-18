@@ -1,24 +1,28 @@
 <?php
 
 require_once __DIR__ . '/BaseModel.php';
-require __DIR__ . '/BaseMode.php';
+
 class Usuario extends BaseModel
 {
     protected string $table = 'usuarios';
 
     // Buscar por email
-    public function findByEmail($email) {
-    $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE email = ?");
-    $stmt->execute([$email]);
-    return $stmt->fetch();
-}
+    public function findByEmail(string $email): ?array
+    {
+        $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE email = :email");
+        $stmt->execute(['email' => $email]);
+        $result = $stmt->fetch();
+        return $result ?: null;
+    }
 
-    // Verificar contraseña
+        // Verificar contraseña
     public function verifyPassword(string $email, string $password): ?array
     {
         $user = $this->findByEmail($email);
 
-        if (!$user) return null;
+        if (!$user) {
+            return null;
+        }
 
         if (password_verify($password, $user['password_hash'])) {
             return $user;
@@ -26,6 +30,4 @@ class Usuario extends BaseModel
 
         return null;
     }
-
-    
 }

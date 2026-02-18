@@ -11,18 +11,14 @@ abstract class BaseModel
         $this->db = Database::getInstance();
     }
 
-    // =============================
     // Obtener todos los registros
-    // =============================
     public function findAll(): array
     {
         $sql = "SELECT * FROM {$this->table}";
         return $this->db->query($sql)->fetchAll();
     }
 
-    // =============================
     // Buscar por ID
-    // =============================
     public function findById(int $id): ?array
     {
         $sql = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} = :id";
@@ -33,9 +29,7 @@ abstract class BaseModel
         return $result ?: null;
     }
 
-    // =============================
     // Eliminar registro
-    // =============================
     public function delete(int $id): bool
     {
         $sql = "DELETE FROM {$this->table} WHERE {$this->primaryKey} = :id";
@@ -44,9 +38,7 @@ abstract class BaseModel
         return $stmt->execute(['id' => $id]);
     }
 
-    // =============================
     // Crear registro dinámico
-    // =============================
     public function create(array $data): int
     {
         $columns = implode(',', array_keys($data));
@@ -60,9 +52,7 @@ abstract class BaseModel
         return (int)$this->db->lastInsertId();
     }
 
-    // =============================
     // Actualizar registro dinámico
-    // =============================
     public function update(int $id, array $data): bool
     {
         $fields = '';

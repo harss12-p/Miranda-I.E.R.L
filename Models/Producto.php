@@ -1,6 +1,6 @@
 <?php
 
-require_once 'BaseModel.php';
+require_once __DIR__ . '/BaseModel.php';
 
 class Producto extends BaseModel
 {
